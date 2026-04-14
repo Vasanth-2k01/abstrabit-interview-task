@@ -38,8 +38,34 @@ export default function AddBookmarkModal() {
     setManualTitle('')
   }
 
+  const isValidUrl = (urlString: string) => {
+    try {
+      const finalUrl = urlString.startsWith('http')
+        ? urlString
+        : `https://${urlString}`
+
+      const url = new URL(finalUrl)
+
+      if (!['http:', 'https:'].includes(url.protocol)) {
+        return false
+      }
+      if (!url.hostname.includes('.') && url.hostname !== 'localhost') {
+        return false
+      }
+
+      return true
+    } catch {
+      return false
+    }
+  }
+
   const handleFetchMetadata = async () => {
     if (!url) return
+
+    if (!isValidUrl(url)) {
+      setError('Please enter a valid URL')
+      return
+    }
     setLoading(true)
     setError('')
     try {
@@ -65,6 +91,10 @@ export default function AddBookmarkModal() {
 
   const handleSave = async () => {
     if (!url) return
+    if (!isValidUrl(url)) {
+      setError('Please enter a valid URL')
+      return
+    }
     setLoading(true)
     setError('')
     try {

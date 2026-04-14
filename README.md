@@ -6,8 +6,8 @@ Hey there! 👋 Welcome to my submission for the Abstrabit Fullstack Engineer ta
 This is a modern, real-time bookmark manager built with **Next.js (App Router)**, **Tailwind CSS**, and **Supabase**. It allows users to securely log in via Google, save links seamlessly, and see all their changes instantly synced across multiple tabs or devices.
 
 ## 🚀 Live Demo & Walkthrough
-- **Live URL:** [Insert Vercel URL here]
-- **Loom Walkthrough:** [Insert Loom URL here]
+- **Live URL:** https://abstrabit-interview-task.vercel.app
+- **Loom Walkthrough:** https://www.loom.com/share/82b122307a494ed685550c7882ddb354
 
 *(Feel free to sign in with your own Google account to test it out!)*
 
@@ -51,7 +51,7 @@ When a user adds a bookmark, I want it to appear on the screen instantly (optimi
 **The Solution:** I refactored the incoming real-time payload handler to intelligently verify local state. Before pushing a new `INSERT` event payload into the grid, the app checks if that record's `id` already exists locally. If it does (meaning we already inserted it optimistically), it gracefully ignores the duplicate event, keeping the UI completely smooth and layout-shift free.
 
 ### 5. If I Had More Time...
-I would implement **Full-Text Search & Draggable Folders**. Right now, tags help organize things well, but as a personal library grows into the thousands, users need nested folders and a robust fuzzy search (likely integrating Supabase's Postgres full-text search features or an external engine like Algolia) to instantly find the link they are thinking of.
+I would implement **Full-Text Search & Draggable Folders**, as well as the ability to **Archive and Pin Bookmarks**. Right now, tags help organize things well, but as a personal library grows into the thousands, users need nested folders and a robust fuzzy search (likely integrating Supabase's Postgres full-text search features or an external engine like Algolia) to instantly find the link they are thinking of. Additionally, giving users the ability to pin their most important links to the top or archive outdated ones would greatly improve the everyday utility of the app.
 
 ---
 

@@ -15,13 +15,13 @@ export default function EditBookmarkModal({ bookmark, isOpen, onClose }: EditBoo
   const [url, setUrl] = useState(bookmark.url)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
-  
+
   const [tagInput, setTagInput] = useState('')
   const [tags, setTags] = useState<string[]>(bookmark.tags ?? [])
-  
+
   const [title, setTitle] = useState(bookmark.title ?? '')
   const [description, setDescription] = useState(bookmark.description ?? '')
-  
+
   const inputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
@@ -44,9 +44,35 @@ export default function EditBookmarkModal({ bookmark, isOpen, onClose }: EditBoo
     }
   }
 
+  const isValidUrl = (urlString: string) => {
+    try {
+      const finalUrl = urlString.startsWith('http')
+        ? urlString
+        : `https://${urlString}`
+
+      const url = new URL(finalUrl)
+
+      if (!['http:', 'https:'].includes(url.protocol)) {
+        return false
+      }
+
+      if (!url.hostname.includes('.') && url.hostname !== 'localhost') {
+        return false
+      }
+
+      return true
+    } catch {
+      return false
+    }
+  }
+
   const handleSave = async () => {
     if (!url) {
       setError('URL is required')
+      return
+    }
+    if (!isValidUrl(url)) {
+      setError('Please enter a valid URL')
       return
     }
     setLoading(true)
@@ -130,7 +156,7 @@ export default function EditBookmarkModal({ bookmark, isOpen, onClose }: EditBoo
             />
           </div>
 
-           <div>
+          <div>
             <label htmlFor="edit-bookmark-desc" className="block text-sm font-medium text-zinc-400 mb-1.5 ml-1">
               Description
             </label>
